@@ -1,0 +1,29 @@
+audio-api:
+  build: .
+  container_name: audio-api
+  ports:
+   - "8080:80"
+  links:
+   - mariadb
+   - amqp
+mariadb:
+  image: mysql
+  container_name: mariadb
+  environment:
+    MYSQL_ROOT_PASSWORD: admin-app-test
+    MYSQL_USER: admin-app-test
+    MYSQL_PASSWORD: admin-app-test
+    MYSQL_DATABASE: sf_audio_test
+amqp:
+  image: rabbitmq
+  container_name: rabbitmq
+
+#Create volume.
+#docker-machine start default && docker-machine ssh default
+#cd / && sudo mkdir ddj && sudo mount -t vboxsf ddj /ddj
+#docker-machine ssh default "cd / && sudo mkdir ddj && sudo mount -t vboxsf ddj /ddj"
+#cd / && sudo mkdir Extend && sudo mount -t vboxsf Extend /Extend
+#docker-machine ssh default "cd / && sudo mkdir Extend && sudo mount -t vboxsf Extend /Extend" &&
+#docker-machine ssh default "cd / && sudo mkdir sapar_temp && sudo mount -t vboxsf sapar_temp /sapar_temp" &&
+#docker-machine ssh default "cd / && sudo mkdir sapar_archives && sudo mount -t vboxsf sapar_archives /sapar_archives"
+#docker exec -ti audio-api /usr/local/bin/php /var/www/html/app/console d:s:u --force
