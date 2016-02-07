@@ -53,48 +53,18 @@ ENV SYMFONY__SMASHVISION__CREDENTIALS__LOGIN=yemistikris@hotmail.fr
 ENV SYMFONY__SMASHVISION__CREDENTIALS__PASSWORD=xerypjd
 ENV AUDIO_API_VERSION=v1.0.0-alpha.2
 RUN ln -s /usr/bin/mediainfo /usr/local/bin/
-#RUN whereis mediainfo
 
-#RUN whereis id3v2
-
-#VOLUME /volume4/Pool/AvDistrict
-#VOLUME /volume4/Pool/Franchise/Audio/Sandbox
-#VOLUME /volume4/Pool/SmashVision
-
-
-#COPY ./ /var/www/html/
 RUN rm -r ./* && git clone --branch $AUDIO_API_VERSION https://github.com/Pyrex-FWI/audio_api.git .
-#RUN git tag -l
-#RUN git checkout $AUDIO_API_VERSION
-RUN git status
+RUN git status && cp /var/www/html/app/config/parameters.yml.dist /var/www/html/app/config/parameters.yml
 
 RUN chown -R www-data: /var/www/html && chmod -R 777 /var/www/html
 
-#RUN ls -al /var/www/html/ 
-
-#RUN find . -maxdepth 1 -mindepth 1 -type d -exec touch {} \+
-
-#RUN ls -al /var/www/html/app/config/parameters.yml
-#RUN sed -i '/id3tool.mediainfo.bin/d' /var/www/html/app/config/parameters.yml
-#RUN sed -i '/id3tool.id3v2.bin/d' /var/www/html/app/config/parameters.yml
-#RUN sed -i '/id3tool.eyed3.bin/d' /var/www/html/app/config/parameters.yml
-#RUN sed -i '/id3tool.metaflac.bin/d' /var/www/html/app/config/parameters.yml
-
-#RUN grep -ri 'id3tool.mediainfo.bin' /var/www/html/app/
-
 RUN export
-ADD app/config/parameters.yml app/config/
-#OBSOLETE
-#RUN composer config --global github-oauth.github.com ec6e28ec82b93a38e1131717e76462cbbdf8c0da
-#OBSOLETE
-#RUN composer install -nq --no-dev --optimize-autoloader --prefer-dist
-RUN composer install -nq --no-dev --optimize-autoloader --prefer-dist
+RUN composer install -nq --no-dev --optimize-autoloader --prefer-dist --profile
 
 RUN rm -rf /var/www/html/app/cache/* && rm -rf /var/www/html/app/logs/* && \
 php app/console cache:warmup && \
 chown -R www-data: /var/www/html/app/cache/ && chown -R www-data: /var/www/html/app/logs/ 
 
 RUN echo "date.timezone = Europe/Paris" >/usr/local/etc/php/php.ini
-
-#RUN $(/sbin/ip route|awk '/default/ { print $3 }')"   mariadb" >> /etc/hosts
-
+RUN cat /var/www/html/app/config/parameters.yml
