@@ -1,5 +1,6 @@
 audio-api:
-  build: .
+  #build: .
+  image: yemistikris/audio-api:latest
   container_name: audio-api
   ports:
    - "8080:80"
@@ -18,6 +19,7 @@ amqp:
   image: rabbitmq
   container_name: rabbitmq
 
+#docker-composer up -d
 #Create volume.
 #docker-machine start default && docker-machine ssh default
 #cd / && sudo mkdir ddj && sudo mount -t vboxsf ddj /ddj
