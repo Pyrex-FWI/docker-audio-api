@@ -56,3 +56,10 @@ docker run -ti \
 --add-host mariadb:192.168.1.21 \
 --env-file vars \
 --name audio-api yemistikris/audio-api media:dump:collection --dump -vv --env dev
+
+
+docker run -ti --rm --name=audio-api --add-host mariadb:172.17.0.1  \
+-v /volume3/docker/my-app/audio-api:/var/sapar/audio-api/ \
+--env-file ../private-data/vars  \
+-v /volume4/Pool/:/volume4/Pool yemistikris/audio-api \
+deejay:pool:download smashvision --start 1 --end 1 --env prod -v --dry
